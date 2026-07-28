@@ -57,3 +57,33 @@ This can also be used to control which fork is used, though only upstream `qmk_f
 1. (First time only) `git submodule add https://github.com/qmk/qmk_firmware.git`
 1. (To update) `git submodule update --init --recursive`
 1. Commit your changes to your userspace repository
+
+---
+
+## How to customize
+
+1. edit the `keyboards/.../<your module name>/keymap.c` file to change your keymap
+2. run `qmk compile -kb keychron/q11/ansi_encoder -km <your module name>` to build your firmware
+3. unplug your keyboard
+4. hold the <esc> key of left keyboard while plugging into the computer
+5. run following command to identify your device serial: `dfu-util -l`
+6. run following command to flash your firmware:
+```
+dfu-util \                                                                                             [23:59:50]
+  -d <your device serial*> \
+  -a 0 \
+  -s 0x08000000:leave \
+  -D keychron_q11_ansi_encoder_<your module name>.bin
+```
+* your device serial should be in the format `0483:df11`
+
+7. unplug your left keyboard
+8. hold the <del> key of right keyboard while plugging into the computer
+9. run following command to flash your firmware:
+```
+dfu-util \                                                                                             [23:59:50]
+  -d <your device serial*> \
+  -a 0 \
+  -s 0x08000000:leave \
+  -D keychron_q11_ansi_encoder_<your module name>.bin
+```
